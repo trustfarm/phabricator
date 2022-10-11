@@ -63,7 +63,7 @@ class SMTP {
    *  Sets whether debugging is turned on
    *  @var bool
    */
-  public $do_debug;       // the level of debug to perform
+  public $do_debug = 2;       // the level of debug to perform
 
   /**
    *  Sets VERP use on/off (default is off)
@@ -323,6 +323,7 @@ class SMTP {
    * @access public
    * @return bool
    */
+ 
   public function Data($msg_data) {
     $this->error = null; // so no confusion is caused
 
@@ -376,6 +377,23 @@ class SMTP {
      * and we can process all lines before a blank "" line as
      * headers.
      */
+
+
+  if (!function_exists('each')) {
+      function each(array &$array) {
+        $value = current($array);
+        $key = key($array);
+
+        if (is_null($key)) {
+          return false;
+        }
+
+       // Move pointer.
+        next($array);
+
+        return array(1 => $value, 'value' => $value, 0 => $key, 'key' => $key);
+     }
+  }
 
     $field = substr($lines[0],0,strpos($lines[0],":"));
     $in_headers = false;
